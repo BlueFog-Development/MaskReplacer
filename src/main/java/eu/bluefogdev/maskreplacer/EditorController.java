@@ -1,10 +1,19 @@
 package eu.bluefogdev.maskreplacer;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -106,7 +115,7 @@ public class EditorController {
             String newFilePath = filePath.substring(0, filePath.lastIndexOf('.')) + "_neu" + filePath.substring(filePath.lastIndexOf('.'));
             Files.write(Paths.get(newFilePath), lines);
 
-            showAlert("Erfolg", "Die Datei wurde erfolgreich bearbeitet und als " + newFilePath + " gespeichert.");
+            showAlertTimed("Erfolg", "\nDie Datei wurde erfolgreich bearbeitet\n\nAls " + newFilePath + " gespeichert.", 3);
             clearFields();
         } catch (IOException ex) {
             showAlert("Fehler", "Fehler beim Verarbeiten der Datei.");
@@ -120,6 +129,29 @@ public class EditorController {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+    private void showAlertTimed(String title, String content, int timerSeconds) {
+        Stage timerAlertStage = new Stage();
+        timerAlertStage.initModality(Modality.APPLICATION_MODAL);
+        timerAlertStage.setTitle(title);
+
+        VBox vbox = new VBox(new Label(content));
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setPadding(new Insets(20, 20, 20, 20));
+
+        Scene scene = new Scene(vbox);
+        timerAlertStage.setScene(scene);
+
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.seconds(timerSeconds),
+                event -> timerAlertStage.close()
+        ));
+        timeline.setCycleCount(1);
+        timeline.play();
+
+        timerAlertStage.show();
+    }
+
 
     private void clearFields() {
         filePathField.setText("");

@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            xmlns="http://javafx.com/javafx"
-            fx:controller="eu.bluefogdev.maskreplacer.EditorView"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="eu.bluefogdev.maskreplacer.EditorApplication" hgap="10" vgap="10">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
 
-</AnchorPane>
+    <Label text="Datei Pfad:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <TextField fx:id="filePathField" GridPane.rowIndex="0" GridPane.columnIndex="1" GridPane.columnSpan="2"/>
+    <Button text="Auswählen" fx:id="selectFileButton" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+    <Label text="Start Nummer:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <TextField fx:id="startNumberField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+    <Label text="Suchmaske:" GridPane.rowIndex="2" GridPane.columnIndex="0" opacity="0.5"/>
+    <TextField fx:id="searchMaskField" text=":28:0" GridPane.rowIndex="2" GridPane.columnIndex="1" opacity="0.5"/>
+
+    <Button text="Bearbeiten" fx:id="processFileButton" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+    <Button text="Beenden" fx:id="cancelButton" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+</GridPane>

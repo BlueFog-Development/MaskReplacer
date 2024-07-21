@@ -6,7 +6,7 @@
 
     <groupId>eu.bluefogdev</groupId>
     <artifactId>MaskReplacer</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <name>MaskReplacer</name>
 
     <properties>
@@ -42,6 +42,7 @@
 
     <build>
         <plugins>
+            <!-- Plugin zum Kompilieren des Quellcodes -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -51,22 +52,63 @@
                     <target>17</target>
                 </configuration>
             </plugin>
+
+            <!-- Plugin zum Erstellen der JAR-Datei -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <finalName>meine-javafx-app</finalName>
+                </configuration>
+            </plugin>
+
+            <!-- Plugin zur Unterstützung von JavaFX -->
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>eu.bluefogdev.maskreplacer/eu.bluefogdev.maskreplacer.HelloApplication</mainClass>
+                            <mainClass>eu.bluefogdev.halloworldfx.HelloApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Plugin zur Unterstützung von jpackage -->
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <executions>
+                    <execution>
+                        <id>package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jpackage</goal>
+                        </goals>
+                        <configuration>
+                            <input>${project.build.directory}/meine-javafx-app</input>
+                            <destination>${project.build.directory}/installer</destination>
+                            <name>HalloWorldFX</name>
+                            <mainJar>${project.build.finalName}.jar</mainJar>
+                            <mainClass>eu.bluefogdev.halloworldfx.HelloApplication</mainClass>
+                            <type>EXE</type>
+                            <appVersion>${project.version}</appVersion>
+                            <vendor>BlueFogDev</vendor>
+                            <winMenu>true</winMenu>
+                            <winShortcut>true</winShortcut>
+                            <winDirChooser>true</winDirChooser>
+                            <icon>src/main/resources/eu/bluefogdev/maskreplacer/favicon.ico</icon>
                         </configuration>
                     </execution>
                 </executions>
